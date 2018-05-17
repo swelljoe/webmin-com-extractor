@@ -10,9 +10,15 @@ use Time::Piece;
 use String::Truncate qw(elide);
 use HTML::WikiConverter;
 
+use File::Path qw(make_path);
+eval { make_path('content/news') };
+if ($@) {
+  say "Failed to create 'content/news' directory: $@";
+  exit 1;
+}
+
 # Convert HTML to markdown
 my $wc = new HTML::WikiConverter(dialect => 'Markdown');
-
 
 my @entries;
 for my $url ('webmin.com', 'webmin.com/oldnews.html') {
