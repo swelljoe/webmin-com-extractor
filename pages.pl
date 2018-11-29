@@ -4,9 +4,7 @@ use strict;
 use warnings;
 use 5.020;
 use Mojo::UserAgent;
-use Data::Printer;
 use Time::Piece;
-use String::Truncate qw(elide);
 use HTML::WikiConverter;
 
 use File::Path qw(make_path);
