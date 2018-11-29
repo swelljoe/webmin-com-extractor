@@ -17,7 +17,7 @@ if ($@) {
 # Convert HTML to markdown
 my $wc = new HTML::WikiConverter(dialect => 'Markdown');
 
-my @urls = ( 'download', 'docs', 'usermin', 'virtualmin', 'cloudmin', 'community', 'mirrors' );
+my @urls = ( 'download', 'docs', 'usermin', 'virtualmin', 'cloudmin', 'community', 'mirrors', 'devel', 'third', 'intro', 'support', 'demo', 'standard', 'lang', 'updates', 'changes', 'about', 'security' );
 my @entries;
 for my $url ( @urls ) {
   my $ua  = Mojo::UserAgent->new;
