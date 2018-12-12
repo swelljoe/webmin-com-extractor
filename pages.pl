@@ -18,9 +18,8 @@ if ($@) {
 # Convert HTML to markdown
 my $wc = new HTML::WikiConverter(dialect => 'Markdown');
 
-my @urls;
-#my @urls = ( 'download', 'docs', 'usermin', 'virtualmin', 'cloudmin', 'community', 'mirrors', 'devel', 'intro', 'support', 'demo', 'lang', 'changes', 'about', 'security' );
-my @html_urls = ( 'third', 'standard', 'updates' );
+my @urls = ( 'download', 'docs', 'usermin', 'virtualmin', 'cloudmin', 'community', 'mirrors', 'devel', 'intro', 'support', 'demo', 'lang', 'changes', 'about', 'security' );
+my @html_urls = ( 'download', 'third', 'standard', 'updates' );
 my @entries;
 for my $url ( @urls ) {
   my $ua  = Mojo::UserAgent->new;
@@ -38,6 +37,7 @@ for my $html_url ( @html_urls ) {
 
   my $main = $res->res->dom->at('#main');
   my $title = $res->res->dom->find('#main > h1')->map('text')->first;
+  # Kill the title, since it'll be added by Hugo
   $main =~ s/<h1>${title}<\/h1>//;
   write_html($html_url, $title, $main);
 }
