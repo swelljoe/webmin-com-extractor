@@ -22,9 +22,9 @@ my $wc = new HTML::WikiConverter(dialect => 'Markdown');
 my @entries;
 for my $url ('webmin.com', 'webmin.com/oldnews.html') {
   my $ua  = Mojo::UserAgent->new;
-  my $res = $ua->get($url);
+  my $tx = $ua->get($url);
 
-  my $main    = $res->res->dom->at('#main');
+  my $main    = $tx->res->dom->at('#main');
   my @headers = $main->find('h3')->map('text')->each;
   my @hcols   = $main->find('h3')->each;
   my @paras;
@@ -38,7 +38,7 @@ for my $url ('webmin.com', 'webmin.com/oldnews.html') {
     $date =~ s/Jul 18/July 18/;
     $date =~ s/Jun (\w)+/June $1/;
 
-    # Get date into this format: 2017-09-30T20:42:08-05:00
+    # Get date into this format: 2017-09-30
     my $tp = Time::Piece->strptime($date, "%B %d, %Y");
     my $fixed = $tp->strftime("%Y-%m-%d");
     $paras[$idx] =~ s/^[\n]//;

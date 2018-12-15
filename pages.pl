@@ -23,9 +23,9 @@ my @html_urls = ( 'download', 'third', 'standard', 'updates' );
 my @entries;
 for my $url ( @urls ) {
   my $ua  = Mojo::UserAgent->new;
-  my $res = $ua->get("webmin.com/$url.html");
+  my $tx = $ua->get("webmin.com/$url.html");
 
-  my $main = $res->res->dom->at('#main');
+  my $main = $tx->res->dom->at('#main');
   my $md = $wc->html2wiki( $main );
   my $title = ucfirst($url);
   write_md($title, $md);
@@ -33,10 +33,10 @@ for my $url ( @urls ) {
 # Don't convert these to Markdown, because they have tables
 for my $html_url ( @html_urls ) {
   my $ua = Mojo::UserAgent->new;
-  my $res = $ua->get("webmin.com/$html_url.html");
+  my $tx = $ua->get("webmin.com/$html_url.html");
 
-  my $main = $res->res->dom->at('#main');
-  my $title = $res->res->dom->find('#main > h1')->map('text')->first;
+  my $main = $tx->res->dom->at('#main');
+  my $title = $tx->res->dom->find('#main > h1')->map('text')->first;
   # Kill the title, since it'll be added by Hugo
   $main =~ s/<h1>${title}<\/h1>//;
   write_html($html_url, $title, $main);
