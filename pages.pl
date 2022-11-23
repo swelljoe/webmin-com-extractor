@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use 5.020;
+use utf8::all;
 use Mojo::UserAgent;
 use Time::Piece;
 use HTML::WikiConverter;
@@ -18,14 +19,17 @@ if ($@) {
 # Convert HTML to markdown
 my $wc = new HTML::WikiConverter(dialect => 'Markdown');
 
-my @urls = ( 'download', 'docs', 'usermin', 'virtualmin', 'cloudmin', 'community', 'mirrors', 'devel', 'intro', 'support', 'demo', 'lang', 'changes', 'about', 'security' );
-my @html_urls = ( 'download', 'third', 'standard', 'updates' );
+my @urls = ( 'docs', 'usermin', 'virtualmin', 'cloudmin', 'community', 'mirrors', 'devel', 'intro', 'support', 'demo', 'changes', 'about', );
+#my @urls = ( 'security' );
+my @html_urls = ( 'lang', 'download', 'third', 'standard', 'updates' );
 my @entries;
 for my $url ( @urls ) {
   my $ua  = Mojo::UserAgent->new;
-  my $tx = $ua->get("webmin.com/$url.html");
+  my $tx = $ua->get("https://webmin.com/$url.html");
+  say "$url";
 
   my $main = $tx->res->dom->at('#main');
+  no warnings 'utf8';
   my $md = $wc->html2wiki( $main );
   my $title = ucfirst($url);
   write_md($title, $md);
@@ -33,7 +37,8 @@ for my $url ( @urls ) {
 # Don't convert these to Markdown, because they have tables
 for my $html_url ( @html_urls ) {
   my $ua = Mojo::UserAgent->new;
-  my $tx = $ua->get("webmin.com/$html_url.html");
+  my $tx = $ua->get("https://webmin.com/$html_url.html");
+  say "$url";
 
   my $main = $tx->res->dom->at('#main');
   my $title = $tx->res->dom->find('#main > h1')->map('text')->first;

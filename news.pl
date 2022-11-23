@@ -20,9 +20,10 @@ if ($@) {
 my $wc = new HTML::WikiConverter(dialect => 'Markdown');
 
 my @entries;
-for my $url ('webmin.com', 'webmin.com/oldnews.html') {
+for my $url ('https://webmin.com', 'https://webmin.com/oldnews.html') {
   my $ua  = Mojo::UserAgent->new;
   my $tx = $ua->get($url);
+  say "$url";
 
   my $main    = $tx->res->dom->at('#main');
   my @headers = $main->find('h3')->map('text')->each;
