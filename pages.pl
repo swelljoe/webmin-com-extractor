@@ -19,9 +19,11 @@ if ($@) {
 # Convert HTML to markdown
 my $wc = new HTML::WikiConverter(dialect => 'Markdown');
 
-my @urls = ( 'docs', 'usermin', 'virtualmin', 'cloudmin', 'community', 'mirrors', 'devel', 'intro', 'support', 'demo', 'changes', 'about', );
+#my @urls = ( 'docs', 'usermin', 'virtualmin', 'cloudmin', 'community', 'mirrors', 'devel', 'intro', 'support', 'demo', 'changes', 'about', 'deb' );
+my @urls = ( 'about', 'books', 'bugs', 'changes', 'cinstall-kvm', 'cinstall-xen', 'cloudmin', 'community', 'contrib', 'deb', 'demo', 'devel', 'developers', 'docs', 'download', 'faq', 'git', 'intro', 'mailing-announce', 'mailing-devel', 'mailing', 'mobile', 'osx', 'partners', 'plugins', 'rpm', 'solaris', 'standard', 'support', 'tgz', 'third', 'trans', 'ubugs', 'uchanges', 'udeb', 'udownload', 'urpm', 'usermin', 'ustandard', 'utgz', 'uupdates', 'uwebmail', 'vchanges', 'vdownload', 'vinstall', 'virtualmin', 'windows' );
+# TODO: modules-index modules-newlang : These are links to doxfer.webmin.com Webmin Modules section, and Module Development
 #my @urls = ( 'security' );
-my @html_urls = ( 'lang', 'download', 'third', 'standard', 'updates' );
+my @html_urls = ( 'lang', 'download', 'third', 'standard', 'updates', 'ulang' );
 my @entries;
 for my $url ( @urls ) {
   my $ua  = Mojo::UserAgent->new;
@@ -38,7 +40,7 @@ for my $url ( @urls ) {
 for my $html_url ( @html_urls ) {
   my $ua = Mojo::UserAgent->new;
   my $tx = $ua->get("https://webmin.com/$html_url.html");
-  say "$url";
+  say "$html_url";
 
   my $main = $tx->res->dom->at('#main');
   my $title = $tx->res->dom->find('#main > h1')->map('text')->first;
